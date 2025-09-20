@@ -95,9 +95,18 @@ function renderStep3() {
 }
 
 function renderSelectionStep(step, title, subtitle, items, requiredCount, nextStepFnName) {
-    const contentData = gameState.topic.type === 'Debate' ? gameData.content[gameState.topic.id][gameState.debateStance] : gameData.content[gameState.topic.id];
+    let contentSource;
+    if (gameState.topic.type === 'Debate') {
+        if (items === 'words') {
+            contentSource = gameData.content[gameState.topic.id];
+        } else {
+            contentSource = gameData.content[gameState.topic.id][gameState.debateStance];
+        }
+    } else {
+        contentSource = gameData.content[gameState.topic.id];
+    }
     
-    const allItems = shuffle([...contentData[items].relevant, ...contentData[items].irrelevant]);
+    const allItems = shuffle([...contentSource[items].relevant, ...contentSource[items].irrelevant]);
     const itemElements = allItems.map(item => `
         <button data-value="${item}" onclick="toggleSelection(this, '${items}')" class="option-btn p-3 border-2 rounded-lg text-sm text-left break-words">
             ${item}
@@ -220,11 +229,18 @@ function toggleSelection(element, type) {
 }
 
 function checkSelection(type) {
-    const contentData = gameState.topic.type === 'Debate' 
-        ? gameData.content[gameState.topic.id][gameState.debateStance][type] 
-        : gameData.content[gameState.topic.id][type];
+    let contentSource;
+    if (gameState.topic.type === 'Debate') {
+        if (type === 'words') {
+            contentSource = gameData.content[gameState.topic.id];
+        } else {
+            contentSource = gameData.content[gameState.topic.id][gameState.debateStance];
+        }
+    } else {
+        contentSource = gameData.content[gameState.topic.id];
+    }
         
-    const relevantItems = new Set(contentData.relevant);
+    const relevantItems = new Set(contentSource[type].relevant);
     const selectedItems = gameState.selections[type];
     let allCorrect = true;
     
