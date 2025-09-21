@@ -11,6 +11,7 @@ let gameState = {
 };
 
 const gameContainer = document.getElementById('game-container');
+const toastContainer = document.getElementById('toast-container');
 
 // Utility to shuffle arrays
 const shuffle = (array) => {
@@ -21,6 +22,20 @@ const shuffle = (array) => {
     return array;
 };
 
+// --- TOAST NOTIFICATION ---
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 4000);
+}
+
+
 // --- RENDERING FUNCTIONS ---
 
 function renderStep() {
@@ -28,17 +43,36 @@ function renderStep() {
     const card = document.createElement('div');
     card.className = 'step-card bg-white';
 
+    let content = '';
     switch (gameState.currentStep) {
-        case 1: card.innerHTML = renderStep1(); break;
-        case 2: card.innerHTML = renderStep2(); break;
-        case 3: card.innerHTML = renderStep3(); break;
-        case 4: card.innerHTML = renderStep4(); break;
-        case 5: card.innerHTML = renderStep5(); break;
-        case 6: card.innerHTML = renderStep6(); break;
-        case 7: card.innerHTML = renderStep7(); break;
+        case 1: content = renderStep1(); break;
+        case 2: content = renderStep2(); break;
+        case 3: content = renderStep3(); break;
+        case 4: content = renderStep4(); break;
+        case 5: content = renderStep5(); break;
+        case 6: content = renderStep6(); break;
+        case 7: content = renderStep7(); break;
     }
+
+    const progressBar = renderProgressBar();
+    const topicDisplay = gameState.topic ? renderTopicDisplay() : '';
+    card.innerHTML = progressBar + topicDisplay + content;
+
     gameContainer.appendChild(card);
 }
+
+function renderProgressBar() {
+    let segments = '';
+    for (let i = 1; i <= 7; i++) {
+        segments += `<div class="progress-segment ${i <= gameState.currentStep ? 'active' : ''}"></div>`;
+    }
+    return `<div class="progress-bar">${segments}</div>`;
+}
+
+function renderTopicDisplay() {
+    return `<div class="topic-display">${gameState.topic.text}</div>`;
+}
+
 
 function renderHeader(step, title, subtitle) {
     const backButton = step > 1 ? `<button onclick="goBack()" class="absolute top-4 left-4 text-blue-600 hover:underline">&larr; Back</button>` : '';
@@ -217,6 +251,18 @@ function identifyFormat(index, element) {
     }
 }
 
+function getRequiredCount(type) {
+    switch (type) {
+        case 'words':
+        case 'sentences':
+            return 10;
+        case 'paragraphs':
+            return 3;
+        default:
+            return 0;
+    }
+}
+
 function toggleSelection(element, type) {
     const value = element.dataset.value;
     if (gameState.selections[type].has(value)) {
@@ -229,6 +275,19 @@ function toggleSelection(element, type) {
 }
 
 function checkSelection(type) {
+    const requiredCount = getRequiredCount(type);
+    const selectedItems = gameState.selections[type];
+
+    if (selectedItems.size !== requiredCount) {
+        const diff = requiredCount - selectedItems.size;
+        if (diff > 0) {
+            showToast(`Please select ${diff} more item(s).`, 'error');
+        } else {
+            showToast(`You have selected ${-diff} too many item(s). Please select only ${requiredCount}.`, 'error');
+        }
+        return;
+    }
+
     let contentSource;
     if (gameState.topic.type === 'Debate') {
         if (type === 'words') {
@@ -241,30 +300,36 @@ function checkSelection(type) {
     }
         
     const relevantItems = new Set(contentSource[type].relevant);
-    const selectedItems = gameState.selections[type];
+    
     let allCorrect = true;
+    let correctCount = 0;
+    selectedItems.forEach(item => {
+        if(relevantItems.has(item)) {
+            correctCount++;
+        }
+    });
+
+    if (correctCount !== requiredCount) {
+        allCorrect = false;
+    }
     
     document.querySelectorAll(`[data-value]`).forEach(el => {
         const value = el.dataset.value;
         if (selectedItems.has(value)) { // If the user selected this item
             if (relevantItems.has(value)) { // And it's a correct item
-                 el.className = 'option-btn p-3 border-2 rounded-lg text-sm text-left break-words bg-green-100 border-green-500';
+                // Don't reveal correct answers unless all are correct
             } else { // But it's an incorrect item
-                el.className = 'option-btn p-3 border-2 rounded-lg text-sm text-left break-words bg-red-100 border-red-500';
                 allCorrect = false;
-            }
-        } else { // If the user did NOT select this item
-            if(relevantItems.has(value)) { // But they SHOULD have
-               allCorrect = false;
             }
         }
     });
-    
-    if (selectedItems.size !== relevantItems.size) {
-        allCorrect = false;
-    }
 
     if(allCorrect) {
+        document.querySelectorAll(`[data-value]`).forEach(el => {
+            if (relevantItems.has(el.dataset.value)) {
+                el.className = 'option-btn p-3 border-2 rounded-lg text-sm text-left break-words bg-green-100 border-green-500';
+            }
+        });
         setTimeout(() => {
             gameState.history.push(gameState.currentStep);
             gameState.currentStep++;
@@ -272,7 +337,7 @@ function checkSelection(type) {
             renderStep();
         }, 1500);
     } else {
-         // Optionally show an error message
+         showToast('Some of your choices are incorrect. Please review your selections.', 'warning');
     }
 }
 
