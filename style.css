@@ -1,20 +1,34 @@
+:root {
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'Lora', serif;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f9fafb; /* Light gray background */
-    color: #111827; /* Dark gray text for contrast */
+    font-family: var(--font-sans);
+    background-color: #f8f9fa; 
+    color: #212529;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-serif);
+}
+
+.font-serif {
+    font-family: var(--font-serif);
 }
 
 .option-btn {
     transition: all 0.2s ease;
-    border-radius: 8px; /* Slightly rounded corners */
-    border: 2px solid #e5e7eb; /* Default light gray border */
+    border-radius: 8px; 
+    border: 2px solid #dee2e6;
     background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .option-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.07);
-    border-color: #d1d5db;
+    box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.08);
+    border-color: #ced4da;
 }
 
 .option-btn h3, .option-btn div {
@@ -22,37 +36,38 @@ body {
 }
 
 .selected {
-    background-color: #111827; /* Black */
+    background-color: #212529; 
     color: white;
-    border-color: #111827; /* Black */
+    border-color: #212529; 
 }
 
 /* Progress Bar */
-.progress-bar {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 24px;
-}
-.progress-segment {
-    flex-grow: 1;
+.progress-bar-container {
+    width: 100%;
     height: 8px;
-    background-color: #e5e7eb;
+    background-color: #e9ecef;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 48px;
+    overflow: hidden;
 }
-.progress-segment.active {
-    background-color: #111827; /* Black for active segment */
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background-color: #212529;
+    border-radius: 4px;
+    transition: width 0.4s ease-out;
 }
 
 /* Topic Display */
 .topic-display {
     text-align: center;
-    margin-bottom: 20px;
-    padding: 12px;
-    background-color: #f3f4f6;
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #f1f3f5;
     border-radius: 8px;
     font-weight: 500;
-    color: #111827;
+    color: #495057;
 }
 
 /* Toast Notifications */
@@ -67,12 +82,12 @@ body {
 }
 
 .toast.toast-error {
-    background-color: #ef4444;
+    background-color: #e03131;
     color: white;
 }
 
 .toast.toast-warning {
-    background-color: #f59e0b;
+    background-color: #f08c00;
     color: white;
 }
 
@@ -88,25 +103,25 @@ body {
     text-align: center;
     margin-bottom: 16px;
     font-weight: 500;
-    color: #1f2937;
+    color: #495057;
 }
 
 /* Full-card feedback states */
 .card-correct, .card-correct * {
-    background-color: #10b981 !important;
+    background-color: #2f9e44 !important;
     color: #ffffff !important;
-    border-color: #059669 !important;
+    border-color: #2b8a3e !important;
 }
 .card-incorrect, .card-incorrect * {
-    background-color: #ef4444 !important;
+    background-color: #e03131 !important;
     color: #ffffff !important;
-    border-color: #dc2626 !important;
+    border-color: #c92a2a !important;
 }
 
 /* Format Builder */
 .answer-area {
     min-height: 100px;
-    border: 2px dashed #d1d5db;
+    border: 2px dashed #dee2e6;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 24px;
@@ -118,18 +133,18 @@ body {
 
 .component-tag {
     padding: 8px 12px;
-    background-color: #e5e7eb;
+    background-color: #e9ecef;
     border-radius: 6px;
     font-weight: 500;
     transition: all 0.2s ease;
 }
 
 .component-tag.correct {
-    background-color: #10b981;
+    background-color: #2f9e44;
     color: white;
 }
 
 .component-tag.incorrect {
-    background-color: #ef4444;
+    background-color: #e03131;
     color: white;
 }

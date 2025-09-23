@@ -41,7 +41,7 @@ function showToast(message, type = 'info') {
 function renderStep() {
     gameContainer.innerHTML = '';
     const card = document.createElement('div');
-    card.className = 'step-card bg-white';
+    card.className = 'step-card';
 
     let content = '';
     switch (gameState.currentStep) {
@@ -62,11 +62,11 @@ function renderStep() {
 }
 
 function renderProgressBar() {
-    let segments = '';
-    for (let i = 1; i <= 7; i++) {
-        segments += `<div class="progress-segment ${i <= gameState.currentStep ? 'active' : ''}"></div>`;
-    }
-    return `<div class="progress-bar">${segments}</div>`;
+    const progress = (gameState.currentStep / 7) * 100;
+    return `
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: ${progress}%"></div>
+        </div>`;
 }
 
 function renderTopicDisplay() {
@@ -75,14 +75,13 @@ function renderTopicDisplay() {
 
 
 function renderHeader(step, title, subtitle) {
-    const backButton = step > 1 ? `<button onclick="goBack()" class="absolute top-4 left-4 text-blue-600 hover:underline">&larr; Back</button>` : '';
-    const mainMenuButton = step > 1 ? `<button onclick="restartGame()" class="absolute top-4 right-4 text-blue-600 hover:underline">Main Menu</button>` : '';
+    const backButton = step > 1 ? `<button onclick="goBack()" class="absolute top-0 left-0 text-gray-600 hover:underline">&larr; Back</button>` : '';
+    const mainMenuButton = step > 1 ? `<button onclick="restartGame()" class="absolute top-0 right-0 text-gray-600 hover:underline">Main Menu</button>` : '';
     return `
-        <div class="relative mb-6 text-center">
+        <div class="relative text-center mb-8 pt-8">
             ${backButton}
             ${mainMenuButton}
-            <p class="text-sm font-semibold text-blue-600">STEP ${step}</p>
-            <h2 class="text-2xl font-bold text-gray-800 mt-1">${title}</h2>
+            <h2 class="text-3xl font-bold text-gray-800">${title}</h2>
             <p class="text-gray-500 mt-2">${subtitle}</p>
         </div>`;
 }
