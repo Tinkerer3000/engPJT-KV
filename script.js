@@ -66,11 +66,11 @@ function renderStep() {
 }
 
 function renderProgressBar() {
-    const progress = (gameState.currentStep / 7) * 100;
-    return `
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: ${progress}%"></div>
-        </div>`;
+    let segments = '';
+    for (let i = 1; i <= 7; i++) {
+        segments += `<div class="progress-segment ${i <= gameState.currentStep ? 'active' : ''}"></div>`;
+    }
+    return `<div class="progress-bar">${segments}</div>`;
 }
 
 function renderTopicDisplay() {

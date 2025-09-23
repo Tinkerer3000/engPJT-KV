@@ -42,27 +42,28 @@ h1, h2, h3 {
 }
 
 /* Progress Bar */
-.progress-bar-container {
-    width: 100%;
+.progress-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 48px;
+}
+
+.progress-segment {
+    flex-grow: 1;
     height: 8px;
     background-color: #e9ecef;
     border-radius: 4px;
-    margin-bottom: 48px;
-    overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
-.progress-bar-fill {
-    width: 0%;
-    height: 100%;
+.progress-segment.active {
     background-color: #212529;
-    border-radius: 4px;
-    transition: width 0.4s ease-out;
 }
 
 /* Topic Display */
 .topic-display {
     text-align: center;
-    margin: 24px 0 0 0;
+    margin: 0 0 24px 0;
     padding: 16px;
     background-color: #f1f3f5;
     border-radius: 8px;
