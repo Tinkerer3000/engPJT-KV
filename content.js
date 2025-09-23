@@ -9,39 +9,39 @@ const gameData = {
     ],
     formats: {
         Article: {
-            correct: 2, // Corrected index from 3 to 2 as per visual format
+            correct: 3,
             options: [
-                { title: "TITLE", content: "SUBJECT<br>CONTENT<br>BYLINE" },
-                { title: "TITLE", content: "BYLINE<br>SUBJECT<br>CONTENT" },
-                { title: "TITLE", content: "BYLINE<br>CONTENT" }, // Correct format for article
-                { title: "TITLE", content: "CONTENT (1 PARAGRAPH)<br>BY LINE" }
+                { title: "OPTION 1", content: "TITLE<br>SUBJECT<br>CONTENT<br>BYLINE" },
+                { title: "OPTION 2", content: "TITLE<br>BYLINE<br>SUBJECT<br>CONTENT" },
+                { title: "OPTION 3", content: "TITLE<br>CONTENT<br>SUBJECT<br>BYLINE" },
+                { title: "OPTION 4", content: "TITLE<br>BYLINE<br>CONTENT" } // Correct
             ]
         },
         Report: {
             correct: 0,
             options: [
-                { title: "TITLE", content: "BYLINE<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }, // Correct
-                { title: "TITLE", content: "CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE" },
-                { title: "TITLE", content: "SUBJECT<br>CONTENT(WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE" },
-                { title: "TITLE", content: "BYLINE<br>SUBJECT<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }
+                { title: "OPTION 1", content: "TITLE BYLINE<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }, // Correct
+                { title: "OPTION 2", content: "TITLE<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE<br>DESIGNATION" },
+                { title: "OPTION 3", content: "TITLE<br>SUBJECT<br>CONTENT(WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE" },
+                { title: "OPTION 4", content: "TITLE<br>BYLINE<br>SUBJECT<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }
             ]
         },
         Speech: {
             correct: 2,
             options: [
-                { title: "TITLE", content: "CONTENT (1 PARAGRAPH)<br>BY LINE" },
-                { title: "TITLE", content: "BYLINE<br>CONTENT (3 PARAGRAPHS)<br>THANK YOU" },
-                { title: "INTRODUCTION", content: "CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" }, // Correct
-                { title: "INTRODUCTION", content: "BYLINE<br>CONTENT<br>THANK YOU" }
+                { title: "OPTION 1", content: "TITLE<br>CONTENT (1 PARAGRAPH)<br>BY LINE" },
+                { title: "OPTION 2", content: "TITLE<br>BYLINE<br>CONTENT (3 PARAGRAPHS)" },
+                { title: "OPTION 3", content: "INTRODUCTION<br>CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" }, // Correct
+                { title: "OPTION 4", content: "INTRODUCTION<br>BYLINE<br>CONTENT<br>THANK YOU" }
             ]
         },
         Debate: {
             correct: 1,
             options: [
-                { title: "TITLE", content: "CONTENT (1 PARAGRAPH)<br>BY LINE<br>MENTION FOR/AGAINST" },
-                { title: "INTRODUCTION (NAME, DETAILS, FOR OR AGAINST)", content: "CONTENT (3 PARAGRAPHS)<br>THANK YOU<br>DESIGNATION" }, // Correct
-                { title: "INTRODUCTION", content: "CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" },
-                { title: "INTRODUCTION", content: "BYLINE<br>CONTENT<br>THANK YOU" }
+                { title: "OPTION 1", content: "TITLE<br>CONTENT (1 PARAGRAPH)<br>BY LINE MENTION FOR/AGAINST" },
+                { title: "OPTION 2", content: "INTRODUCTION (NAME, DETAILS, FOR OR AGAINST)<br>CONTENT (3 PARAGRAPHS)<br>THANK YOU" }, // Correct
+                { title: "OPTION 3", content: "INTRODUCTION<br>CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" },
+                { title: "OPTION 4", content: "INTRODUCTION<br>BYLINE<br>CONTENT<br>THANK YOU" }
             ]
         }
     },
@@ -74,14 +74,14 @@ const gameData = {
             },
             paragraphs: {
                 relevant: [
-                    "Media literacy empowers individuals to question the reliability of information before accepting it as truth, making them responsible consumers of news in a digital age full of misinformation. By developing critical thinking, people learn to analyze messages, images, and hidden motives, while also understanding how media ownership and sponsorship can influence bias in the content they consume. This awareness helps reduce the risk of manipulation through advertisements, political propaganda, or fake news.",
-                    "An essential aspect of media literacy is teaching students to identify credible sources, which promotes informed decision-making and accuracy in understanding. Practising the habit of cross-checking facts with multiple sources further strengthens this accuracy, allowing learners to distinguish between authentic and misleading information. In this way, media literacy equips citizens with tools to navigate today's fast-changing information environment with confidence and responsibility.",
-                    "Beyond consuming information wisely, media literacy also enables people to create responsible content themselves. It fosters empathy by exposing learners to diverse perspectives, encouraging a more open-minded and respectful approach to communication. Schools, parents, and communities play a vital role in building media literacy through workshops, debates, and the guided use of digital tools, ensuring that future generations grow into thoughtful, ethical, and informed media users."
+                    "Media literacy empowers people to question the reliability of information before accepting it as truth. It helps citizens become responsible consumers of news in a digital age filled with misinformation. Practising cross-checking facts with multiple sources strengthens accuracy in understanding.",
+                    "Media literacy develops critical thinking by teaching people to analyze messages, images, and hidden motives. Understanding media ownership and sponsorship reveals possible bias in the content we consume. Media literacy also reduces the risk of manipulation through advertisements, political propaganda, or fake news.",
+                    "Teaching students to identify credible sources promotes informed decision-making. Developing media literacy encourages empathy by exposing learners to diverse perspectives. It enables people to create responsible content themselves, not just consume it, and schools, parents, and communities can develop media literacy through workshops, debates, and guided use of digital tools."
                 ],
                 irrelevant: [
-                    "Reading books regularly plays an important role in improving vocabulary and overall language skills, while memorizing dates of history may provide short-term benefits for exams. Similarly, knowing how to solve math problems helps in sharpening logical thinking, which is a valuable skill beyond the classroom. These activities contribute to both academic performance and intellectual growth in different ways.",
-                    "At the same time, engaging in other practices also has its benefits. Watching entertainment shows can serve as a source of relaxation, offering a break from routine tasks, while learning a foreign language builds communication skills and opens doors to new cultural experiences. Together, these varied activities show how both academic learning and leisure pursuits contribute to the development of a well-rounded individual.",
-                    "The rise of streaming services has fundamentally changed how we consume entertainment. With vast libraries of movies, documentaries, and series available on demand, viewers have unprecedented control over what and when they watch. This shift has led to the decline of traditional television viewership and has created new opportunities for independent filmmakers and content creators."
+                    "Reading books regularly improves vocabulary. Memorizing dates of history may help in exams. Knowing how to solve math problems improves logical thinking.",
+                    "Watching entertainment shows can be relaxing. Learning a foreign language builds communication skills. But these are not directly connected with understanding media messages or avoiding misinformation.",
+                    "While all these skills are useful for students in general, they do not equip people to detect bias, analyze content, or resist manipulation. Hence, they remain unrelated to the urgent need for media literacy in the digital age."
                 ]
             }
         },
@@ -113,20 +113,20 @@ const gameData = {
             },
             paragraphs: {
                  relevant: [
-                    "The tree plantation drive was inaugurated by our Principal along with the President of the NGO, marking the beginning of a meaningful initiative. Teachers, students, and members of the local community participated with great enthusiasm, while the Chief Guest, the Municipal Commissioner, emphasized the importance of trees in combating climate change. More than 200 saplings of neem, banyan, and mango were planted around the school campus and nearby park, creating a strong sense of responsibility among all present.",
-                    "Students took an oath to water and care for the saplings regularly, ensuring that the effort would continue beyond just the event. The NGO volunteers also guided everyone on how to nurture young plants effectively so that they could grow into healthy trees. This hands-on learning helped participants understand the practical steps required in protecting and preserving the environment.",
-                    "The event further highlighted the vital role of trees in our lives. Trees provide oxygen, improve air quality, reduce pollution, and support biodiversity. They also prevent soil erosion and offer shade, making them indispensable for a sustainable future. The drive spread awareness about the urgent need for afforestation in urban spaces and concluded successfully with the shared hope of making our surroundings greener and healthier."
+                    "Our school recently organized a Tree Plantation Drive in collaboration with a local NGO. The event was inaugurated by our Principal along with the President of the NGO. Teachers, students, and members of the local community participated with great enthusiasm, making it a truly collective effort.",
+                    "The Chief Guest, the Municipal Commissioner, highlighted the importance of trees in combating climate change. More than 200 saplings of neem, banyan, and mango were planted around the school campus and the nearby park. Students also took an oath to water and care for the saplings regularly under the guidance of the NGO volunteers.",
+                    "The drive spread awareness about the urgent need for afforestation in urban spaces. Planting trees is vital as they provide oxygen, improve air quality, reduce pollution, and support biodiversity. The event concluded successfully with the hope of turning our surroundings greener and healthier."
                 ],
                 irrelevant: [
-                    "Some students seemed more interested in taking group photos than actively engaging in the plantation activity, making the drive a blend of fun and responsibility. A few volunteers also proposed organizing a cultural program to add vibrancy to the event, but the idea was postponed for another occasion. These lighter moments brought variety to the day and added a casual, enjoyable touch to the otherwise serious initiative.",
-                    "Snacks and refreshments turned out to be the highlight for many participants, offering them a chance to relax and socialize after their efforts. Interestingly, several students admitted they enjoyed indoor events like painting competitions more than outdoor activities. The Principal, while delivering her closing remarks, reminded everyone about the upcoming Annual Sports Day, thus shifting focus from environmental responsibility to other school events.",
-                    "The school library recently acquired a new collection of fiction and non-fiction books. Students are encouraged to visit the library during their free periods to explore these new titles. A reading competition will be held next month to promote reading habits among students."
+                    "Some students were more excited about taking group photos than planting trees. A few volunteers even suggested organizing a cultural program after the drive, but it had to be postponed.",
+                    "Snacks and refreshments were served, which became the highlight for many participants. Several students expressed that they preferred painting competitions to outdoor activities.",
+                    "The Principal also reminded everyone about the upcoming Annual Sports Day during her closing remarks. While this announcement was important, it was not directly related to the plantation drive."
                 ]
             }
         },
         3: { // Sports and Games
             words: {
-                relevant: ["Fitness", "Discipline", "Teamwork", "Perseverance", "Stress relief", "Confidence", "Balance", "Healthy mind", "Participation", "Success"],
+                relevant: ["Fitness", "Discipline", "Teamwork", "Perseverance", "Stress relief", "Confidence", "Balance", "Healthy mind", "Participation", "Success", "Flexibility"],
                 irrelevant: ["Annual exam", "Cultural fest", "Debate competition", "Musical performance", "Science exhibition", "Quiz contest", "Morning assembly prayer", "Library reading", "Art workshop", "Computer lab session"]
             },
             sentences: {
@@ -143,23 +143,23 @@ const gameData = {
                     "Sports are not just hobbies but essential life lessons that prepare us for future challenges."
                 ],
                 irrelevant: [
-                    "The annual school fete is scheduled for next month.",
-                    "Students must submit their science projects by the end of the week.",
-                    "The school choir is preparing for the national-level competition.",
-                    "Proper uniform is mandatory for all students.",
-                    "The examination schedule will be displayed on the notice board."
+                    "Many students are more interested in annual cultural programs than in playing games.",
+                    "Some feel that spending time in the library is more useful than playing on the ground.",
+                    "Students often prefer watching sports on television rather than participating actively.",
+                    "A few believe that academic achievements alone are enough for a successful career.",
+                    "Refreshments served during sports events sometimes attract more students than the matches themselves."
                 ]
             },
             paragraphs: {
                 relevant: [
-                     "Good morning respected Principal, teachers, and my dear friends. Today, I stand before you to speak on the importance of sports and games in a student's life. We often get so engrossed in our academic pursuits that we forget the crucial role physical activities play in our overall development. Sports are not merely a means of recreation; they are an integral part of a balanced education.",
-                     "Engaging in sports and games helps us build a healthy and strong body. It improves our physical fitness, stamina, and coordination. But the benefits are not just physical. Sports teach us invaluable life lessons like discipline, teamwork, perseverance, and leadership. On the field, we learn to work together towards a common goal, to respect our opponents, and to handle both victory and defeat with grace.",
-                     "Furthermore, physical activity is a great stress buster. A game of football or a run in the park can refresh our minds and improve our concentration in the classroom. It helps in developing a healthy mind in a healthy body. Therefore, I urge all of you to take up at least one sport and make it a regular part of your lives. Let's not just be bookworms, but well-rounded individuals ready to face the challenges of the world. Thank you."
+                    "Sports and games play a vital role in shaping the overall personality of students. They not only maintain physical fitness but also keep our minds fresh and active. Outdoor games like football, cricket, and hockey develop stamina and strength, while indoor games such as chess and table tennis improve mental sharpness and decision-making.",
+                    "Participation in sports helps in building discipline, teamwork, and leadership qualities. It teaches us to accept victory with humility and defeat with grace, which are essential values in life. Sports are not just hobbies but important life lessons that prepare us for future challenges.",
+                    "Regular involvement in physical activities also reduces stress and improves concentration. Schools should encourage students by organizing inter-house and inter-school competitions, while students can further enhance their skills by joining sports clubs and practising regularly."
                 ],
                 irrelevant: [
-                    "Our school has a rich history of academic excellence. For decades, our students have topped the board exams and have gone on to join prestigious universities around the world. This is a testament to the hard work of our dedicated teachers and the rigorous academic curriculum we follow.",
-                    "The annual cultural festival is one of the most awaited events in our school. It is a platform for students to showcase their talents in music, dance, drama, and fine arts. The preparations for the festival begin months in advance, and the entire school comes together to make it a grand success.",
-                    "The school library is a treasure trove of knowledge. It has a vast collection of books, journals, and magazines on various subjects. Students are encouraged to make the best use of this facility to broaden their horizons and develop a lifelong love for reading. A quiet and serene environment makes it an ideal place for study and research."
+                    "Many students are more interested in annual cultural programs than in playing games. Some even feel that spending time in the library is more useful than being out on the playground.",
+                    "Students often prefer watching sports on television rather than participating actively. A few also believe that academic achievements alone are enough for a successful career.",
+                    "Refreshments served during sports events sometimes attract more students than the matches themselves. While these points may reflect reality, they do not truly reflect the value of sports in shaping our lives."
                 ]
             }
         },
@@ -168,75 +168,37 @@ const gameData = {
                 relevant: ["Flexibility", "Accessibility", "Independent learning", "Social interaction", "Digital literacy", "Communication skills", "Discipline", "Health concerns", "Time-saving", "Holistic development"],
                 irrelevant: ["School picnic", "Annual sports day", "Cultural fest", "Library week", "Hostel life", "School canteen", "Uniform rules", "Parent-teacher meeting", "School bus facility", "Farewell party"]
             },
-            for: {
-                sentences: {
-                    relevant: [
-                        "Flexibility: Students can learn at their own pace, anytime and anywhere.",
-                        "Accessibility: Learners from remote areas can access quality education without relocating.",
-                        "Cost-effective: Saves travel expenses, uniform costs, and often tuition fees are lower.",
-                        "Technological skills: Students naturally develop digital literacy and adaptability.",
-                        "Variety of resources: Videos, simulations, and e-libraries provide diverse learning materials.",
-                        "Personalised learning: Adaptive platforms allow customised progress tracking and individual attention.",
-                        "Global exposure: Students can attend lectures, webinars, and courses from international institutions.",
-                        "Online education promotes self-discipline and time management skills.",
-                        "It provides a comfortable learning environment from home.",
-                        "Digital tools allow for innovative and interactive teaching methods."
-                    ],
-                    irrelevant: [
-                       "Online gaming is a popular pastime for many students.",
-                       "Social media helps people stay connected with friends and family.",
-                       "E-commerce has made shopping more convenient.",
-                       "Video conferencing tools are essential for remote work.",
-                       "Students often complain about the amount of homework."
-                    ]
-                },
-                paragraphs: {
-                     relevant: [
-                        "Online learning offers great flexibility as students can study at their own pace, anytime and anywhere, making education more convenient and adaptable to individual schedules. It is also highly accessible, allowing learners from remote areas to access quality education without the need to relocate. Moreover, it is cost-effective as it saves on travel expenses, uniforms, and often provides lower tuition fees compared to traditional schooling.",
-                        "Another major advantage is the development of technological skills. By engaging with digital platforms, students naturally build digital literacy and adaptability, which are essential for the modern world. Online learning also provides a wide variety of resources such as videos, simulations, and e-libraries, ensuring that learners have access to diverse study materials that enhance understanding and retention.",
-                        "Additionally, personalised learning becomes possible through adaptive platforms that allow customised progress tracking and individual attention. Students also gain global exposure by attending lectures, webinars, and courses from international institutions, widening their perspectives and preparing them to compete in a globalised world. Together, these benefits make online learning a powerful tool for modern education."
-                    ],
-                    irrelevant: [
-                       "Traditional classrooms offer a structured learning environment that many students thrive in. The daily routine of going to school, attending classes, and interacting with teachers and peers provides a sense of discipline and normalcy that is often lacking in online education.",
-                       "Extracurricular activities like sports, music, and drama are an integral part of school life. They play a crucial role in the holistic development of students, fostering teamwork, creativity, and leadership skills. These experiences are difficult to replicate in an online setting.",
-                       "The personal bond between a teacher and a student is crucial for effective learning. In a physical classroom, teachers can gauge the mood of the students, understand their non-verbal cues, and provide immediate support and encouragement. This human connection is often lost in the virtual world."
-                    ]
-                }
+            sentences: {
+                relevant: [
+                    "Online education provides flexibility of time and place for students and teachers.",
+                    "It allows access to a vast variety of resources like e-books, videos, and global experts.",
+                    "Students can learn at their own pace, revising recorded lessons whenever needed.",
+                    "Online platforms reduce commuting time and expenses for both students and parents.",
+                    "Technology integration prepares students for a digitally driven future.",
+                    "Traditional schooling provides face-to-face interaction that builds social and communication skills.",
+                    "Online education often lacks discipline and can make students less focused.",
+                    "Technical issues like poor internet connectivity hinder effective learning.",
+                    "Teachers can better assess body language, attention, and participation in physical classrooms.",
+                    "Traditional schools offer extracurricular activities like sports and cultural events, absent online."
+                ],
+                irrelevant: [
+                    "Some students enjoy lunch breaks with friends more than actual classes.",
+                    "Parents often prefer uniforms because they create equality, though this doesn't affect online learning.",
+                    "School buses help in time management but have little to do with quality of education.",
+                    "Online learning doesn't require a playground, but many students miss playing games during breaks.",
+                    "Traditional schools have morning assemblies, which may not directly affect academic learning."
+                ]
             },
-            against: {
-                sentences: {
-                    relevant: [
-                        "Lack of social interaction: Online classes reduce peer bonding, teamwork, and real friendships.",
-                        "Discipline issues: Home learning often lacks structure and routine, leading to distractions.",
-                        "Teacher-student connection: Face-to-face guidance and emotional support are limited online.",
-                        "Practical learning: Labs, sports, arts, and hands-on activities are difficult to replicate virtually.",
-                        "Digital divide: Many students lack access to reliable devices and internet connectivity.",
-                        "Health concerns: Prolonged screen time causes eye strain, fatigue, and posture issues.",
-                        "Limited assessment reliability: Online exams often face challenges of cheating and fairness.",
-                        "It can be difficult for students to stay motivated without direct supervision.",
-                        "Technical glitches and connectivity issues can disrupt learning.",
-                        "The lack of a clear separation between school and home can be stressful."
-                    ],
-                    irrelevant: [
-                        "Traditional schools have long summer vacations.",
-                        "School uniforms can be expensive for some families.",
-                        "Heavy school bags are a common complaint among students.",
-                        "Classroom sizes can sometimes be too large for effective teaching.",
-                        "The pressure of examinations can cause anxiety in students."
-                    ]
-                },
-                paragraphs: {
-                    relevant: [
-                        "One of the major drawbacks of online learning is the lack of social interaction, which reduces opportunities for peer bonding, teamwork, and building real friendships. Students also miss the strong teacher-student connection that comes with face-to-face guidance, where motivation, and emotional support are more effective. Without these interactions, learning can often feel isolating and less engaging.",
-                        "Discipline is another issue, as home-based learning often lacks the structure and routine of a physical classroom, leading to distractions and reduced focus. Practical learning, such as science labs, sports, arts, and other hands-on activities, is also difficult to replicate virtually, which limits holistic development. This gap highlights the limitations of relying solely on digital platforms for education.",
-                        "Furthermore, the digital divide poses a serious challenge, as many students do not have access to reliable devices or strong internet connectivity. Health concerns also arise from prolonged screen time, leading to eye strain, fatigue, and posture-related problems. Even assessments become less reliable, as online exams face challenges of cheating and fairness. These limitations show that while online learning has advantages, it cannot fully replace traditional classroom education."
-                    ],
-                    irrelevant: [
-                        "The flexibility of online learning allows students to pursue other interests and hobbies alongside their studies. They can create a personalized schedule that fits their learning style and pace, leading to better understanding and retention of concepts. This autonomy can foster a sense of responsibility and independence in learners.",
-                        "Online platforms provide access to a vast array of educational resources from around the world. Students can learn from experts in any field, watch interactive videos, and participate in virtual labs and simulations. This global exposure can enrich their learning experience and broaden their perspectives.",
-                        "For students with special needs or health issues, online learning can be a boon. It provides a safe and comfortable environment where they can learn without the physical and social challenges of a traditional school. Adaptive technologies can also cater to their specific learning requirements."
-                    ]
-                }
+            paragraphs: {
+                relevant: [
+                    "Online education has emerged as a powerful mode of learning as it provides flexibility of time and place to both teachers and students. Learners can access a wide range of resources like e-books, videos, and expert lectures from across the globe, which enhances their knowledge base. Moreover, the opportunity to revisit recorded lessons enables students to learn at their own pace. It also reduces commuting time and expenses, making education more affordable and convenient, while preparing students for a digitally driven future through constant use of technology.",
+                    "However, online learning comes with its share of challenges. Students often struggle with maintaining discipline and focus in a virtual environment, which can affect their performance. Technical issues such as poor internet connectivity also create interruptions, limiting the effectiveness of lessons. Unlike physical classrooms, online platforms make it difficult for teachers to observe students' body language, attention, and participation, leading to gaps in monitoring and evaluation.",
+                    "Traditional schooling, on the other hand, offers experiences beyond academics. Face-to-face interaction helps students develop social and communication skills, which are essential for overall growth. Schools also provide extracurricular activities like sports, cultural events, and group projects that foster teamwork, creativity, and leadership—opportunities that are largely absent in online education. Thus, while both modes have their strengths and drawbacks, a blended approach may ensure the best of both worlds."
+                ],
+                irrelevant: [
+                    "Online education has become an effective mode of learning as it provides flexibility of time and place to teachers and students. It offers access to a variety of resources such as e-books, videos, and expert lectures from across the world. Students can revisit recorded lessons to learn at their own pace, while reduced commuting time and expenses make education more affordable and convenient. At the same time, regular use of digital platforms equips learners with skills required for a technology-driven future.",
+                    "Yet, online education has its limitations. Many students struggle with discipline and focus in a virtual setting, and technical problems like poor internet connectivity often disrupt learning. Unlike traditional classrooms, teachers cannot easily assess students' body language or attention online, leading to gaps in understanding. Moreover, schools provide face-to-face interaction and extracurricular opportunities such as sports and cultural events, which build social, communication, and leadership skills. Hence, a balanced approach that blends online and traditional methods may ensure the most effective form of education."
+                ]
             }
         },
         5: { // Fast Food
@@ -267,14 +229,13 @@ const gameData = {
             },
             paragraphs: {
                 relevant: [
-                    "Fast food has become highly popular among teenagers because of its taste, affordability, and easy availability. Unfortunately, it often replaces homemade balanced meals in daily life, leading to unhealthy eating habits. Since such foods are rich in fats, sugar, and salt but poor in essential nutrients, regular intake can harm the overall growth and development of young bodies.",
-                    "The health consequences of frequent junk food consumption are serious. It can lead to obesity and weight-related problems, along with vitamin and protein deficiencies. Teenagers who consume fast food regularly are at greater risk of developing diabetes at a young age, and excess intake may also cause heart problems later in life. Moreover, it weakens concentration levels, reduces immunity, and affects both physical and mental well-being.",
-                    "To address this issue, parents and schools must spread awareness about healthy eating and encourage students to choose nutritious food options. Along with awareness, regular physical exercise and moderation in food habits can help reduce the harmful effects of fast food. By balancing diet and lifestyle, teenagers can enjoy occasional treats while still maintaining good health."
+                    "Fast food has become extremely popular among teenagers because of its delicious taste and easy availability. For many, it often replaces homemade balanced meals, gradually becoming a part of their daily lifestyle. While it may seem convenient, frequent consumption of such food items can have serious consequences on health, especially in the growing years of life.",
+                    "These foods are usually high in fats, sugar, and salt but lack essential nutrients like vitamins and proteins. Regular intake can lead to obesity, reduced immunity, and poor concentration levels in students. More alarming is the increased risk of lifestyle diseases such as diabetes at a young age and heart problems later in life. Such habits not only affect physical health but also impact mental alertness and energy levels.",
+                    "To counter these harmful effects, awareness about healthy eating must be spread by both parents and schools. Encouraging children to include fresh fruits, vegetables, and homemade meals in their diet is essential. Alongside, physical exercise and moderation in consuming fast food can help maintain good health and ensure that students grow into fit, active, and responsible individuals."
                 ],
                 irrelevant: [
-                    "Teenagers often visit fast food outlets more for socializing and spending time with friends than for the food itself. Many are attracted by the colorful packaging and presentation, which makes the meals visually appealing and trendy. In today's digital age, some even post pictures of their meals on social media rather than focusing on finishing them, turning eating into a social or online activity.",
-                    "Fast food chains also target youth with various marketing strategies, including discounts, festive offers, and occasional free toys in combo meals, making these outlets especially appealing to younger students. Such tactics encourage frequent visits and create a sense of excitement around fast food, influencing teenagers' eating habits beyond just taste or nutrition.",
-                    "The school cafeteria offers a variety of healthy and delicious meal options for students. The menu is planned by a nutritionist to ensure that it meets the dietary needs of growing children. From fresh salads and fruits to whole-grain sandwiches and traditional Indian meals, there is something for everyone."
+                    "Fast food has become more than just a meal for teenagers; it is often a means of socializing. Many students visit outlets not only to eat but also to spend time with friends in a casual environment. The colorful and attractive packaging makes fast food even more appealing, while the trend of posting meal pictures on social media shows how it is linked with lifestyle and peer influence rather than just hunger.",
+                    "Oddly, some teenagers admit that they like going there because they believe the chairs are more comfortable than their classroom desks. In rare cases, students even talk about how the smell of fries helps them concentrate on homework, though there is no evidence of this. Such unusual perceptions create excitement and curiosity."
                 ]
             }
         }

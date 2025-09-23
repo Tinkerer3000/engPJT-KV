@@ -2,7 +2,6 @@ let gameState = {
     currentStep: 1,
     history: [],
     topic: null,
-    debateStance: null, // 'for' or 'against'
     selections: {
         words: new Set(),
         sentences: new Set(),
@@ -76,9 +75,11 @@ function renderTopicDisplay() {
 
 function renderHeader(step, title, subtitle) {
     const backButton = step > 1 ? `<button onclick="goBack()" class="absolute top-4 left-4 text-blue-600 hover:underline">&larr; Back</button>` : '';
+    const mainMenuButton = step > 1 ? `<button onclick="restartGame()" class="absolute top-4 right-4 text-blue-600 hover:underline">Main Menu</button>` : '';
     return `
         <div class="relative mb-6 text-center">
             ${backButton}
+            ${mainMenuButton}
             <p class="text-sm font-semibold text-blue-600">STEP ${step}</p>
             <h2 class="text-2xl font-bold text-gray-800 mt-1">${title}</h2>
             <p class="text-gray-500 mt-2">${subtitle}</p>
@@ -97,14 +98,6 @@ function renderStep1() {
 }
 
 function renderStep2() {
-     if (gameState.topic.type === 'Debate') {
-        return renderHeader(2, 'Choose Your Stance', `You've selected a debate topic. Do you want to argue FOR or AGAINST the motion?`) +
-        `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-            <button onclick="selectDebateStance('for')" class="option-btn p-4 border-2 rounded-lg text-lg font-semibold hover:border-green-500 hover:bg-green-50">FOR the Motion</button>
-            <button onclick="selectDebateStance('against')" class="option-btn p-4 border-2 rounded-lg text-lg font-semibold hover:border-red-500 hover:bg-red-50">AGAINST the Motion</button>
-        </div>`;
-    }
-    
     const types = shuffle(['Article', 'Report', 'Speech', 'Debate']);
     const typeButtons = types.map(type => 
         `<button onclick="identifyType('${type}', this)" class="option-btn p-4 border-2 rounded-lg text-lg font-semibold hover:border-blue-500 hover:bg-blue-50">${type}</button>`
@@ -134,7 +127,7 @@ function renderSelectionStep(step, title, subtitle, items, requiredCount, nextSt
         if (items === 'words') {
             contentSource = gameData.content[gameState.topic.id];
         } else {
-            contentSource = gameData.content[gameState.topic.id][gameState.debateStance];
+            contentSource = gameData.content[gameState.topic.id];
         }
     } else {
         contentSource = gameData.content[gameState.topic.id];
@@ -149,6 +142,7 @@ function renderSelectionStep(step, title, subtitle, items, requiredCount, nextSt
 
 
     return renderHeader(step, title, subtitle) +
+           `<div class="selection-counter" id="selection-counter">0/${getRequiredCount(items)} selected</div>` +
            `<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">${itemElements}</div>` +
            `<div class="mt-8 flex justify-center items-center gap-4">
                 <button onclick="goBack()" class="px-8 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75">
@@ -174,27 +168,52 @@ function renderStep6() {
 
 function renderStep7() {
     const contentData = gameData.content[gameState.topic.id];
-    const finalParagraphs = (gameState.topic.type === 'Debate' ? contentData[gameState.debateStance] : contentData).paragraphs.relevant;
+    const finalParagraphs = contentData.paragraphs.relevant;
+    let finalContent = '';
 
-    let titleText = '';
-    if (gameState.topic.type === 'Article') {
-        titleText = gameState.topic.text.match(/"([^"]+)"/)[1];
-    } else if (gameState.topic.type === 'Report') {
-         titleText = 'Tree Plantation Drive Organized by School';
-    } else if (gameState.topic.type === 'Speech') {
-        titleText = `Importance of Sports and Games in Student Life`;
-    } else if (gameState.topic.type === 'Debate') {
-        titleText = `"Online Education is Better than Traditional Schooling"`;
+    switch (gameState.topic.id) {
+        case 1: // Media Literacy
+            finalContent = `
+                <div class="prose max-w-none">
+                    <h2 class="text-3xl font-bold text-center mb-2">Media Literacy: A Survival Skill in the Digital Age</h2>
+                    <p class="text-center text-gray-600 italic mb-6">By ARJUN</p>
+                    ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
+                </div>`;
+            break;
+        case 2: // Tree Plantation
+            finalContent = `
+                <div class="prose max-w-none">
+                    <h2 class="text-3xl font-bold text-center mb-2">Tree Plantation Drive</h2>
+                    <p class="text-center text-gray-600 italic mb-6">BY ARJUN, CULTURAL SECRETARY OF DE NOBILI SCHOOL</p>
+                    <p class="text-justify">A Tree Plantation Drive was organized at De Nobili School, Mumbai on 2nd September under Mission:Eco Club which was hosted by the students of Classes XI and XII under the guidance of their Biology teacher, and Mr. JP Sharma, the Chairman of the Mumbai Corporation attended it as the Chief Guest.</p>
+                    ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
+                </div>`;
+            break;
+        case 3: // Sports and Games
+            finalContent = `
+                <div class="prose max-w-none">
+                     <p class="text-justify">Good morning to all. I am Arjun of Class XI from De Nobili School, and I stand before you today to deliver a speech on "Importance of Sports and Games in Student Life".</p>
+                    ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
+                    <p class="text-justify">I Hope you have found my speech relevant and convincing. Thank you.</p>
+                </div>`;
+            break;
+        case 4: // Online Education
+            finalContent = `
+                <div class="prose max-w-none">
+                    <p class="text-justify">Good morning to the respected panel of judges and audience, I, Arjun of Class XI from De Nobili School, Mumbai stand before you to speak in favour of the motion 'Online Education is Better than Traditional Schooling'.</p>
+                    ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
+                    <p class="text-justify">I hope I could convince you of my viewpoint. Thank you.</p>
+                </div>`;
+            break;
+        case 5: // Fast Food
+            finalContent = `
+                <div class="prose max-w-none">
+                    <h2 class="text-3xl font-bold text-center mb-2">Impact of Fast Food on Teenagers' Health</h2>
+                    <p class="text-center text-gray-600 italic mb-6">BY ARJUN</p>
+                    ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
+                </div>`;
+            break;
     }
-    
-    const finalContent = `
-        <div class="prose max-w-none">
-            <h2 class="text-3xl font-bold text-center mb-2">${titleText}</h2>
-            ${gameState.topic.byline ? `<p class="text-center text-gray-600 italic mb-6">${gameState.topic.byline}</p>` : ''}
-            ${finalParagraphs.map(p => `<p class="text-justify">${p}</p>`).join('')}
-            ${gameState.topic.type === 'Speech' || gameState.topic.type === 'Debate' ? `<p class="font-bold mt-6">Thank you.</p>` : ''}
-        </div>
-    `;
     
     return renderHeader(7, 'Your Final Piece', 'Congratulations! You have successfully constructed the text.') +
            `<div class="p-6 bg-gray-50 rounded-lg border">${finalContent}</div>` +
@@ -211,13 +230,6 @@ function selectTopic(id) {
     gameState.history.push(gameState.currentStep);
     gameState.topic = gameData.topics.find(t => t.id === id);
     gameState.currentStep = 2;
-    renderStep();
-}
-
-function selectDebateStance(stance) {
-    gameState.history.push(gameState.currentStep);
-    gameState.debateStance = stance;
-    gameState.currentStep = 3; // Skip type identification for debate, go to format
     renderStep();
 }
 
@@ -272,6 +284,12 @@ function toggleSelection(element, type) {
         gameState.selections[type].add(value);
         element.classList.add('selected');
     }
+    
+    // Update counter
+    const counter = document.getElementById('selection-counter');
+    if (counter) {
+        counter.textContent = `${gameState.selections[type].size}/${getRequiredCount(type)} selected`;
+    }
 }
 
 function checkSelection(type) {
@@ -288,16 +306,7 @@ function checkSelection(type) {
         return;
     }
 
-    let contentSource;
-    if (gameState.topic.type === 'Debate') {
-        if (type === 'words') {
-            contentSource = gameData.content[gameState.topic.id];
-        } else {
-            contentSource = gameData.content[gameState.topic.id][gameState.debateStance];
-        }
-    } else {
-        contentSource = gameData.content[gameState.topic.id];
-    }
+    let contentSource = gameData.content[gameState.topic.id];
         
     const relevantItems = new Set(contentSource[type].relevant);
     
@@ -353,7 +362,6 @@ function restartGame() {
         currentStep: 1,
         history: [],
         topic: null,
-        debateStance: null,
         selections: {
             words: new Set(),
             sentences: new Set(),
