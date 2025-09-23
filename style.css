@@ -62,7 +62,7 @@ h1, h2, h3 {
 /* Topic Display */
 .topic-display {
     text-align: center;
-    margin-bottom: 24px;
+    margin: 24px 0 0 0;
     padding: 16px;
     background-color: #f1f3f5;
     border-radius: 8px;
@@ -147,4 +147,17 @@ h1, h2, h3 {
 .component-tag.incorrect {
     background-color: #e03131;
     color: white;
+}
+
+.option-btn.disabled {
+    background-color: #f1f3f5;
+    color: #adb5bd;
+    cursor: not-allowed;
+    border-color: #e9ecef;
+}
+
+.option-btn.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #e9ecef;
 }

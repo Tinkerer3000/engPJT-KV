@@ -43,20 +43,24 @@ function renderStep() {
     const card = document.createElement('div');
     card.className = 'step-card';
 
-    let content = '';
+    let stepData = {};
     switch (gameState.currentStep) {
-        case 1: content = renderStep1(); break;
-        case 2: content = renderStep2(); break;
-        case 3: content = renderStep3(); break;
-        case 4: content = renderStep4(); break;
-        case 5: content = renderStep5(); break;
-        case 6: content = renderStep6(); break;
-        case 7: content = renderStep7(); break;
+        case 1: stepData = renderStep1(); break;
+        case 2: stepData = renderStep2(); break;
+        case 3: stepData = renderStep3(); break;
+        case 4: stepData = renderStep4(); break;
+        case 5: stepData = renderStep5(); break;
+        case 6: stepData = renderStep6(); break;
+        case 7: stepData = renderStep7(); break;
     }
 
     const progressBar = renderProgressBar();
-    const topicDisplay = gameState.topic ? renderTopicDisplay() : '';
-    card.innerHTML = progressBar + topicDisplay + content;
+    const header = renderHeader(gameState.currentStep, stepData.title, stepData.subtitle);
+    const topicDisplay = (gameState.topic && gameState.currentStep > 1) ? renderTopicDisplay() : '';
+    const gameContent = stepData.content;
+
+    // Correct order: Progress Bar -> Step Header -> Topic Display -> Game Content
+    card.innerHTML = progressBar + header + topicDisplay + gameContent;
 
     gameContainer.appendChild(card);
 }
@@ -88,48 +92,63 @@ function renderHeader(step, title, subtitle) {
 
 function renderStep1() {
     const topicButtons = gameData.topics.map(topic => 
-        `<button onclick="selectTopic(${topic.id})" class="option-btn w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 focus:outline-none">
+        `<button onclick="selectTopic(${topic.id})" class="option-btn w-full text-left p-4">
             ${topic.text}
         </button>`
     ).join('');
-
-    return renderHeader(1, 'Select a Topic', 'Choose one of the following writing prompts to begin.') +
-           `<div class="space-y-4">${topicButtons}</div>`;
+    
+    return {
+        title: 'Select a Topic',
+        subtitle: 'Choose one of the following writing prompts to begin.',
+        content: `<div class="space-y-4">${topicButtons}</div>`
+    };
 }
 
 function renderStep2() {
     const types = shuffle(['Article', 'Report', 'Speech', 'Debate']);
     const typeButtons = types.map(type => 
-        `<button onclick="identifyType('${type}', this)" class="option-btn p-4 border-2 rounded-lg text-lg font-semibold hover:border-blue-500 hover:bg-blue-50">${type}</button>`
+        `<button onclick="identifyType('${type}', this)" class="option-btn p-4 text-lg font-semibold">${type}</button>`
     ).join('');
 
-    return renderHeader(2, 'Identify the Writing Type', `Based on the topic you selected, what type of writing is it?`) +
-           `<p class="my-4 p-4 bg-gray-100 border-l-4 border-gray-300 text-gray-700 rounded-r-lg">"${gameState.topic.text}"</p>` +
-           `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${typeButtons}</div>`;
+    return {
+        title: 'Identify the Writing Type',
+        subtitle: 'Based on the topic you selected, what type of writing is it?',
+        content: `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${typeButtons}</div>`
+    };
 }
 
 function renderStep3() {
     const formatData = gameData.formats[gameState.topic.type];
-    const poolButtons = shuffle([...formatData.pool]).map(component => 
-        `<button onclick="selectFormatComponent('${component}')" class="option-btn p-3 text-sm text-center break-words">${component}</button>`
-    ).join('');
+    const poolButtons = formatData.pool.map(component => {
+        const isSelected = gameState.selections.formatSequence.includes(component);
+        return `<button 
+                    onclick="selectFormatComponent('${component}')" 
+                    class="option-btn p-3 text-sm text-center break-words ${isSelected ? 'disabled' : ''}"
+                    ${isSelected ? 'disabled' : ''}
+                >
+                    ${component}
+                </button>`
+    }).join('');
 
     const sequenceTags = gameState.selections.formatSequence.map((component, index) => 
         `<div id="tag-${index}" class="component-tag">${component}</div>`
     ).join('');
 
-    return renderHeader(3, 'Build the Correct Format', `Select the components in the correct order to build the format for a/an ${gameState.topic.type}.`) +
-        `<div id="answer-area" class="answer-area">${sequenceTags}</div>` +
+    return {
+        title: 'Build the Correct Format',
+        subtitle: `Select the components in the correct order to build the format for a/an ${gameState.topic.type}.`,
+        content: `<div id="answer-area" class="answer-area">${sequenceTags}</div>` +
         `<div class="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8">${poolButtons}</div>` +
         `<div class="flex justify-center items-center gap-4">
             <button onclick="undoFormatSelection()" class="px-6 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">Undo</button>
             <button onclick="clearFormatSelection()" class="px-6 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">Clear</button>
             <button onclick="checkFormatSequence()" class="px-8 py-3 bg-black text-white font-semibold border-2 border-black rounded-lg hover:opacity-90">Submit</button>
-        </div>`;
+        </div>`
+    };
 }
 
 
-function renderSelectionStep(step, title, subtitle, items, requiredCount, nextStepFnName) {
+function renderSelectionStep(title, subtitle, items, requiredCount, nextStepFnName) {
     let contentSource;
     if (gameState.topic.type === 'Debate') {
         if (items === 'words') {
@@ -148,30 +167,30 @@ function renderSelectionStep(step, title, subtitle, items, requiredCount, nextSt
         </button>
     `).join('');
 
-
-    return renderHeader(step, title, subtitle) +
-           `<div class="selection-counter" id="selection-counter">0/${getRequiredCount(items)} selected</div>` +
+    const gameContent = `<div class="selection-counter" id="selection-counter">0/${getRequiredCount(items)} selected</div>` +
            `<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">${itemElements}</div>` +
            `<div class="mt-8 flex justify-center items-center gap-4">
-                <button onclick="goBack()" class="px-8 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">
-                    Back
-                </button>
-                <button onclick="${nextStepFnName}('${items}')" class="px-8 py-3 bg-black text-white font-semibold border-2 border-black rounded-lg hover:opacity-90">
-                    Check Answers
-                </button>
+                <button onclick="goBack()" class="px-6 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">Back</button>
+                <button onclick="${nextStepFnName}('${items}')" class="px-8 py-3 bg-black text-white font-semibold border-2 border-black rounded-lg hover:opacity-90">Check Answers</button>
             </div>`;
+
+    return {
+        title: title,
+        subtitle: subtitle,
+        content: gameContent
+    };
 }
 
 function renderStep4() {
-    return renderSelectionStep(4, 'Choose Relevant Words', `Select the 10 most relevant words for your topic from the list below.`, 'words', 10, 'checkSelection');
+    return renderSelectionStep('Choose Relevant Words', `Select the 10 most relevant words for your topic from the list below.`, 'words', 10, 'checkSelection');
 }
 
 function renderStep5() {
-    return renderSelectionStep(5, 'Choose Relevant Sentences', `Select the 10 most relevant sentences for your topic.`, 'sentences', 10, 'checkSelection');
+    return renderSelectionStep('Choose Relevant Sentences', `Select the 10 most relevant sentences for your topic.`, 'sentences', 10, 'checkSelection');
 }
 
 function renderStep6() {
-    return renderSelectionStep(6, 'Choose Relevant Paragraphs', `Select the 3 paragraphs that form the body of your text.`, 'paragraphs', 3, 'checkSelection');
+    return renderSelectionStep('Choose Relevant Paragraphs', `Select the 3 paragraphs that form the body of your text.`, 'paragraphs', 3, 'checkSelection');
 }
 
 function renderStep7() {
@@ -223,13 +242,16 @@ function renderStep7() {
             break;
     }
     
-    return renderHeader(7, 'Your Final Piece', 'Congratulations! You have successfully constructed the text.') +
-           `<div class="p-6 bg-gray-50 rounded-lg border">${finalContent}</div>` +
+    return {
+        title: 'Your Final Piece',
+        subtitle: 'Congratulations! You have successfully constructed the text.',
+        content: `<div class="p-6 bg-gray-50 rounded-lg border">${finalContent}</div>` +
            `<div class="mt-8 text-center">
                 <button onclick="restartGame()" class="px-8 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none">
                     Start a New Topic
                 </button>
-           </div>`;
+           </div>`
+    };
 }
 
 
@@ -261,7 +283,9 @@ function identifyType(type, element) {
 }
 
 function selectFormatComponent(component) {
-    gameState.selections.formatSequence.push(component);
+    if (!gameState.selections.formatSequence.includes(component)) {
+        gameState.selections.formatSequence.push(component);
+    }
     renderStep();
 }
 
