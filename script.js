@@ -5,7 +5,8 @@ let gameState = {
     selections: {
         words: new Set(),
         sentences: new Set(),
-        paragraphs: new Set()
+        paragraphs: new Set(),
+        formatSequence: []
     }
 };
 
@@ -110,15 +111,24 @@ function renderStep2() {
 
 function renderStep3() {
     const formatData = gameData.formats[gameState.topic.type];
-    const formatOptions = formatData.options.map((opt, index) => `
-        <button onclick="identifyFormat(${index}, this)" class="option-btn h-full flex flex-col p-4 text-left">
-            <div class="text-sm leading-relaxed text-center">${opt.content}</div>
-        </button>
-    `).join('');
+    const poolButtons = shuffle([...formatData.pool]).map(component => 
+        `<button onclick="selectFormatComponent('${component}')" class="option-btn p-3 text-sm text-center break-words">${component}</button>`
+    ).join('');
 
-    return renderHeader(3, 'Select the Correct Format', `Which of these represents the correct format for a/an ${gameState.topic.type}?`) +
-           `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">${formatOptions}</div>`;
+    const sequenceTags = gameState.selections.formatSequence.map((component, index) => 
+        `<div id="tag-${index}" class="component-tag">${component}</div>`
+    ).join('');
+
+    return renderHeader(3, 'Build the Correct Format', `Select the components in the correct order to build the format for a/an ${gameState.topic.type}.`) +
+        `<div id="answer-area" class="answer-area">${sequenceTags}</div>` +
+        `<div class="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8">${poolButtons}</div>` +
+        `<div class="flex justify-center items-center gap-4">
+            <button onclick="undoFormatSelection()" class="px-6 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">Undo</button>
+            <button onclick="clearFormatSelection()" class="px-6 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">Clear</button>
+            <button onclick="checkFormatSequence()" class="px-8 py-3 bg-black text-white font-semibold border-2 border-black rounded-lg hover:opacity-90">Submit</button>
+        </div>`;
 }
+
 
 function renderSelectionStep(step, title, subtitle, items, requiredCount, nextStepFnName) {
     let contentSource;
@@ -251,22 +261,59 @@ function identifyType(type, element) {
     }
 }
 
-function identifyFormat(index, element) {
-    const isCorrect = (index === gameData.formats[gameState.topic.type].correct);
-    if (isCorrect) {
-        element.classList.add('card-correct');
+function selectFormatComponent(component) {
+    gameState.selections.formatSequence.push(component);
+    renderStep();
+}
+
+function undoFormatSelection() {
+    gameState.selections.formatSequence.pop();
+    renderStep();
+}
+
+function clearFormatSelection() {
+    gameState.selections.formatSequence = [];
+    renderStep();
+}
+
+function checkFormatSequence() {
+    const formatData = gameData.formats[gameState.topic.type];
+    const userSequence = gameState.selections.formatSequence;
+    const correctSequence = formatData.correct_sequence;
+
+    let isFullyCorrect = true;
+    if (userSequence.length !== correctSequence.length) {
+        isFullyCorrect = false;
+    }
+
+    userSequence.forEach((component, index) => {
+        const tag = document.getElementById(`tag-${index}`);
+        if (tag) {
+            if (index < correctSequence.length && component === correctSequence[index]) {
+                tag.classList.add('correct');
+            } else {
+                tag.classList.add('incorrect');
+                isFullyCorrect = false;
+            }
+        }
+    });
+    
+    // Check for missing items that were not selected by the user
+    correctSequence.forEach(component => {
+        if (!userSequence.includes(component)) {
+            isFullyCorrect = false;
+        }
+    });
+
+
+    if (isFullyCorrect) {
         setTimeout(() => {
             gameState.history.push(gameState.currentStep);
             gameState.currentStep = 4;
             renderStep();
-        }, 700);
+        }, 1200);
     } else {
-        element.classList.add('card-incorrect');
-        setTimeout(() => {
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.classList.remove('card-incorrect', 'card-correct');
-            });
-        }, 600);
+        showToast('The format sequence is incorrect. Please try again.', 'error');
     }
 }
 
@@ -372,7 +419,8 @@ function restartGame() {
         selections: {
             words: new Set(),
             sentences: new Set(),
-            paragraphs: new Set()
+            paragraphs: new Set(),
+            formatSequence: []
         }
     };
     renderStep();

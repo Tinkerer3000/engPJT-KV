@@ -9,40 +9,20 @@ const gameData = {
     ],
     formats: {
         Article: {
-            correct: 3,
-            options: [
-                { title: "OPTION 1", content: "TITLE<br>SUBJECT<br>CONTENT<br>BYLINE" },
-                { title: "OPTION 2", content: "TITLE<br>BYLINE<br>SUBJECT<br>CONTENT" },
-                { title: "OPTION 3", content: "TITLE<br>CONTENT<br>SUBJECT<br>BYLINE" },
-                { title: "OPTION 4", content: "TITLE<br>BYLINE<br>CONTENT" } // Correct
-            ]
+            correct_sequence: ["TITLE", "BYLINE", "CONTENT"],
+            pool: ["TITLE", "BYLINE", "CONTENT", "SUBJECT", "DESIGNATION"]
         },
         Report: {
-            correct: 0,
-            options: [
-                { title: "OPTION 1", content: "TITLE BYLINE<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }, // Correct
-                { title: "OPTION 2", content: "TITLE<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE<br>DESIGNATION" },
-                { title: "OPTION 3", content: "TITLE<br>SUBJECT<br>CONTENT(WHAT, WHEN, WHERE, WHY, HOW, WHO)<br>BYLINE" },
-                { title: "OPTION 4", content: "TITLE<br>BYLINE<br>SUBJECT<br>CONTENT (WHAT, WHEN, WHERE, WHY, HOW, WHO)" }
-            ]
+            correct_sequence: ["TITLE", "BYLINE", "CONTENT"],
+            pool: ["TITLE", "BYLINE", "CONTENT", "SUBJECT", "DESIGNATION"]
         },
         Speech: {
-            correct: 2,
-            options: [
-                { title: "OPTION 1", content: "TITLE<br>CONTENT (1 PARAGRAPH)<br>BY LINE" },
-                { title: "OPTION 2", content: "TITLE<br>BYLINE<br>CONTENT (3 PARAGRAPHS)" },
-                { title: "OPTION 3", content: "INTRODUCTION<br>CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" }, // Correct
-                { title: "OPTION 4", content: "INTRODUCTION<br>BYLINE<br>CONTENT<br>THANK YOU" }
-            ]
+            correct_sequence: ["INTRODUCTION", "CONTENT", "THANK YOU"],
+            pool: ["INTRODUCTION", "CONTENT", "THANK YOU", "BYLINE", "TITLE"]
         },
         Debate: {
-            correct: 1,
-            options: [
-                { title: "OPTION 1", content: "TITLE<br>CONTENT (1 PARAGRAPH)<br>BY LINE MENTION FOR/AGAINST" },
-                { title: "OPTION 2", content: "INTRODUCTION (NAME, DETAILS, FOR OR AGAINST)<br>CONTENT (3 PARAGRAPHS)<br>THANK YOU" }, // Correct
-                { title: "OPTION 3", content: "INTRODUCTION<br>CONTENT (MIN 3 PARAGRAPHS)<br>THANK YOU" },
-                { title: "OPTION 4", content: "INTRODUCTION<br>BYLINE<br>CONTENT<br>THANK YOU" }
-            ]
+            correct_sequence: ["INTRODUCTION", "CONTENT", "THANK YOU"],
+            pool: ["INTRODUCTION", "CONTENT", "THANK YOU", "BYLINE", "TITLE", "DESIGNATION"]
         }
     },
     content: {

@@ -102,3 +102,34 @@ body {
     color: #ffffff !important;
     border-color: #dc2626 !important;
 }
+
+/* Format Builder */
+.answer-area {
+    min-height: 100px;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.component-tag {
+    padding: 8px 12px;
+    background-color: #e5e7eb;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.component-tag.correct {
+    background-color: #10b981;
+    color: white;
+}
+
+.component-tag.incorrect {
+    background-color: #ef4444;
+    color: white;
+}
