@@ -1,32 +1,30 @@
 body {
     font-family: 'Inter', sans-serif;
+    background-color: #f9fafb; /* Light gray background */
+    color: #111827; /* Dark gray text for contrast */
 }
-.step-card {
-    transition: all 0.5s ease-in-out;
-}
+
 .option-btn {
     transition: all 0.2s ease;
+    border-radius: 8px; /* Slightly rounded corners */
+    border: 2px solid #e5e7eb; /* Default light gray border */
+    background-color: #ffffff;
 }
+
 .option-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.07);
+    border-color: #d1d5db;
 }
-@keyframes blink-red {
-    50% { border-color: #ef4444; background-color: #fee2e2; }
+
+.option-btn h3, .option-btn div {
+    transition: color 0.2s ease;
 }
-.blink-red {
-    animation: blink-red 1s ease-in-out;
-}
-@keyframes blink-green {
-    50% { border-color: #22c55e; background-color: #dcfce7; }
-}
-.blink-green {
-    animation: blink-green 1s ease-in-out;
-}
+
 .selected {
-    background-color: #3b82f6;
+    background-color: #111827; /* Black */
     color: white;
-    border-color: #2563eb;
+    border-color: #111827; /* Black */
 }
 
 /* Progress Bar */
@@ -43,7 +41,7 @@ body {
     transition: background-color 0.3s ease;
 }
 .progress-segment.active {
-    background-color: #3b82f6;
+    background-color: #111827; /* Black for active segment */
 }
 
 /* Topic Display */
@@ -54,7 +52,7 @@ body {
     background-color: #f3f4f6;
     border-radius: 8px;
     font-weight: 500;
-    color: #4b5563;
+    color: #111827;
 }
 
 /* Toast Notifications */
@@ -90,5 +88,17 @@ body {
     text-align: center;
     margin-bottom: 16px;
     font-weight: 500;
-    color: #1d4ed8;
+    color: #1f2937;
+}
+
+/* Full-card feedback states */
+.card-correct, .card-correct * {
+    background-color: #10b981 !important;
+    color: #ffffff !important;
+    border-color: #059669 !important;
+}
+.card-incorrect, .card-incorrect * {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: #dc2626 !important;
 }

@@ -8,18 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-100 flex flex-col min-h-screen p-4">
     <div id="toast-container" class="fixed top-5 right-5 z-50"></div>
-    <div class="container mx-auto max-w-4xl">
+    <div class="container mx-auto max-w-4xl flex-grow">
         <header class="text-center mb-4">
             <h1 class="text-4xl font-bold text-gray-800">WRITE RIGHT</h1>
-            <p class="text-sm text-gray-500">Content: Sraddha Chatterjee, PGT English, KVS | Creation: Surya Adhikari, B.Tech, VIT</p>
+            <p class="text-sm text-gray-500">by Sraddha Chatterjee, PGT English, KVS.</p>
         </header>
 
         <main id="game-container" class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
             <!-- All game steps will be dynamically inserted here -->
         </main>
     </div>
+
+    <footer class="text-center mt-8 text-sm text-gray-500">
+        site made by Surya Adhikari.
+    </footer>
 
     <script src="./content.js"></script>
     <script src="./script.js"></script>

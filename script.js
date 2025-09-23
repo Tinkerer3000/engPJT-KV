@@ -111,9 +111,8 @@ function renderStep2() {
 function renderStep3() {
     const formatData = gameData.formats[gameState.topic.type];
     const formatOptions = formatData.options.map((opt, index) => `
-        <button onclick="identifyFormat(${index}, this)" class="option-btn h-full flex flex-col p-4 border-2 rounded-lg hover:border-blue-500 hover:bg-blue-50 text-left">
-            <h3 class="font-bold text-lg mb-2 text-center">${opt.title}</h3>
-            <div class="text-sm text-gray-600 leading-relaxed text-center">${opt.content}</div>
+        <button onclick="identifyFormat(${index}, this)" class="option-btn h-full flex flex-col p-4 text-left">
+            <div class="text-sm leading-relaxed text-center">${opt.content}</div>
         </button>
     `).join('');
 
@@ -135,7 +134,7 @@ function renderSelectionStep(step, title, subtitle, items, requiredCount, nextSt
     
     const allItems = shuffle([...contentSource[items].relevant, ...contentSource[items].irrelevant]);
     const itemElements = allItems.map(item => `
-        <button data-value="${item}" onclick="toggleSelection(this, '${items}')" class="option-btn p-3 border-2 rounded-lg text-sm text-left break-words">
+        <button data-value="${item}" onclick="toggleSelection(this, '${items}')" class="option-btn p-3 text-sm text-left break-words">
             ${item}
         </button>
     `).join('');
@@ -145,10 +144,10 @@ function renderSelectionStep(step, title, subtitle, items, requiredCount, nextSt
            `<div class="selection-counter" id="selection-counter">0/${getRequiredCount(items)} selected</div>` +
            `<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">${itemElements}</div>` +
            `<div class="mt-8 flex justify-center items-center gap-4">
-                <button onclick="goBack()" class="px-8 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75">
+                <button onclick="goBack()" class="px-8 py-3 bg-gray-200 text-gray-900 font-semibold border-2 border-gray-300 rounded-lg hover:bg-gray-300">
                     Back
                 </button>
-                <button onclick="${nextStepFnName}('${items}')" class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                <button onclick="${nextStepFnName}('${items}')" class="px-8 py-3 bg-black text-white font-semibold border-2 border-black rounded-lg hover:opacity-90">
                     Check Answers
                 </button>
             </div>`;
@@ -233,33 +232,41 @@ function selectTopic(id) {
     renderStep();
 }
 
-function applyBlink(element, isCorrect) {
-    const className = isCorrect ? 'blink-green' : 'blink-red';
-    element.classList.add(className);
-    setTimeout(() => element.classList.remove(className), 1000);
-}
-
 function identifyType(type, element) {
     const isCorrect = (type === gameState.topic.type);
-    applyBlink(element, isCorrect);
     if (isCorrect) {
+        element.classList.add('card-correct');
         setTimeout(() => {
             gameState.history.push(gameState.currentStep);
             gameState.currentStep = 3;
             renderStep();
-        }, 1100);
+        }, 700);
+    } else {
+        element.classList.add('card-incorrect');
+        setTimeout(() => {
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('card-incorrect', 'card-correct');
+            });
+        }, 600);
     }
 }
 
 function identifyFormat(index, element) {
     const isCorrect = (index === gameData.formats[gameState.topic.type].correct);
-    applyBlink(element, isCorrect);
     if (isCorrect) {
-         setTimeout(() => {
+        element.classList.add('card-correct');
+        setTimeout(() => {
             gameState.history.push(gameState.currentStep);
             gameState.currentStep = 4;
             renderStep();
-        }, 1100);
+        }, 700);
+    } else {
+        element.classList.add('card-incorrect');
+        setTimeout(() => {
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('card-incorrect', 'card-correct');
+            });
+        }, 600);
     }
 }
 
@@ -336,7 +343,7 @@ function checkSelection(type) {
     if(allCorrect) {
         document.querySelectorAll(`[data-value]`).forEach(el => {
             if (relevantItems.has(el.dataset.value)) {
-                el.className = 'option-btn p-3 border-2 rounded-lg text-sm text-left break-words bg-green-100 border-green-500';
+                el.classList.add('card-correct');
             }
         });
         setTimeout(() => {
